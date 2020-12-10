@@ -1,12 +1,12 @@
-const postDB = require("../model/post.json");
+const userDB = require("../model/post.json");
 
 function createPost(req, res) {
-    let user = req.body;
-    userDB.push(user);
-    fs.writeFileSync(path.join(__dirname,"user.json"),JSON.stringify(userDB));
+    let post = req.body;
+    userDB.push(post);
+    fs.writeFileSync(path.join(__dirname,"post.json"),JSON.stringify(postDB));
     res.status(201).json({
         success: "successfull",
-        user: user
+        post: post
     })
 }
 

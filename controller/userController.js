@@ -1,13 +1,19 @@
 let userDB = require("../model/user.json");
+let userModel = require("../model/userModel");
 
-function createUser(req, res) {
-    let user = req.body;
-    userDB.push(user);
-    fs.writeFileSync(path.join(__dirname,"user.json"),JSON.stringify(userDB));
-    res.status(201).json({
-        success: "successfull",
-        user: user
-    })
+async function createUser(req, res) {
+    try {
+        let ndbuser = await userModel.create(req.body);
+        res.status(201).json({
+            success: "successfull",
+            user: ndbuser
+        })
+    } catch (err) {
+        res.status(500).json({
+            success: "failure",
+            "message": err.message
+        })
+    }
 }
 
 function getUser(req, res) {
