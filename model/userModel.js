@@ -15,8 +15,30 @@ const create = function (userobj) {
 
 }
 
-const getById = function (id, selectionobj) {
+const getById = function (id) {
     // get user in db
+    return new Promise(function (resolve, reject) {
+        db.query(`SELECT * from user WHERE uid="${id}"`, function (err, result) {
+            if (err){
+                reject(err);
+            }else{
+                resolve(result[0])
+            }
+        })
+    })
+}
+
+const getAll = function (id) {
+    return new Promise(function (resolve, reject) {
+        db.query(`SELECT * from user`, function (err, result) {
+            if (err){
+
+                reject(err);
+            }else{
+                resolve(result)
+            }
+        })
+    })
 }
 
 const updateById = function (uid, updateObj) {
@@ -29,5 +51,6 @@ const deleteById = function (id) {
 
 module.exports.create = create
 module.exports.getById = getById
+module.exports.getAll = getAll
 module.exports.updateById = updateById
 module.exports.deleteById = deleteById

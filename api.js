@@ -6,6 +6,8 @@ const path = require("path");
 const userRouter = require("./router/userRouter");
 // const postRouter = require("./router/postRouter");
 
+app.use(express.static("view"));
+
 // app.use(function (req, res, next) {
 //     console.log("1st");
 //     console.log(req);
@@ -23,7 +25,7 @@ app.use(express.json());
 // })
 
 // localhost:3000/api/users/user_id
-app.use("/api/users", userRouter);
+app.use("/api/v1/users", userRouter);
 // app.use("/api/post", postRouter);
 
 

@@ -16,26 +16,32 @@ async function createUser(req, res) {
     }
 }
 
-function getUser(req, res) {
-    let { user_id } = req.params;
-    let user;
-    for (let i = 0; i < userDB.length; i++) {
-        if (userDB[i].user_id == user_id) {
-            user = userDB[i];
+async function getUser(req, res) {
+    try {
+        let { user_id } = req.params;
+        let user;
+        user = await userModel.getById(user_id);
+        if (user == undefined) {
+            return res.status(404).json({
+                status: "failure",
+                message: "user not found"
+            })
         }
-    }
-    if (user == undefined) {
-        return res.status(404).json({
+
+        res.status(200).json({
+            status: "success",
+            user: user
+        })
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: err.message,
             status: "failure",
-            message: "user not found"
         })
     }
-
-    res.status(200).json({
-        status: "success",
-        user: user
-    })
 }
+
 
 function updateUser(req, res) {
     let { user_id } = req.params;
@@ -89,7 +95,33 @@ function deleteUser(req, res) {
     })
 }
 
+async function getAllUser(req, res) {
+    try {
+        let user;
+        //   db get using id 
+        user = await userModel.getAll();
+        if (user.length == 0) {
+            return res.status(404).json({
+                status: "failure",
+                message: "user not found"
+            })
+        }
+        res.status(200).json({
+            status: "success",
+            user: user
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: err.message,
+            status: "failure",
+        })
+    }
+
+}
+
 module.exports.createUser = createUser;
 module.exports.updateUser = updateUser;
 module.exports.deleteUser = deleteUser;
 module.exports.getUser = getUser;
+module.exports.getAllUser = getAllUser;
