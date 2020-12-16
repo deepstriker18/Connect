@@ -8,3 +8,10 @@ CREATE TABLE IF NOT EXISTS user(
     is_public BOOLEAN DEFAULT true,
     p_img_url VARCHAR(255) 
 );
+
+CREATE TABLE IF NOT EXISTS user_follower(
+    user_id VARCHAR(80) NOT NULL,
+    follower_id VARCHAR(80) NOT NULL,
+    is_pending BOOLEAN DEFAULT true,
+    INDEX (user_id)
+);
